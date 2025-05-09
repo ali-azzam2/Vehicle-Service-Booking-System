@@ -15,7 +15,7 @@ A Spring Boot application for managing vehicle service bookings.
 This will start both the PostgreSQL database and the Spring Boot application:
 
 ```bash
-docker-compose up
+docker-compose up --build
 ```
 
 The application will be available at: http://localhost:8080/api
