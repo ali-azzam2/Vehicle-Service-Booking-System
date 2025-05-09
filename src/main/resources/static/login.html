@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Vehicle Service Booking</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>login form</title>
+    <link rel="stylesheet" href="css/style.css">
+     <link rel="stylesheet" href="css/style2.css">
 </head>
 <body>
     <div class="container">
         <div class="card" style="max-width: 400px; margin: 2rem auto;">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Login</h2>
             <div id="error-message" class="alert alert-danger" style="display: none;"></div>
             <form id="login-form">
                 <div class="form-group">
@@ -22,12 +23,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
             </form>
-            <p style="text-align: center; margin-top: 1rem;">
-                Don't have an account? <a href="/register.html">Register here</a>
-            </p>
+            <div class="text"><p>Don't have an account <a href="./register.html">register here!</a></p></div>
         </div>
     </div>
-
+    
     <script>
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -52,7 +51,7 @@
                     if (data.roles && data.roles.includes('ROLE_MECHANIC')) {
                         window.location.href = '/mechanic.html';
                     } else {
-                        window.location.href = '/services.html';
+                        window.location.href = '/index.html';
                     }
                 } else {
                     errorMessage.textContent = data.message || 'Login failed';
@@ -65,4 +64,4 @@
         });
     </script>
 </body>
-</html> 
+</html>

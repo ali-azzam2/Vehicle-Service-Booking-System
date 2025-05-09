@@ -2,97 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Vehicle Service Booking</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>register form</title>
+    <link rel="stylesheet" href="./css/style.css">
+     <link rel="stylesheet" href="./css/style2.css">  
 </head>
 <body>
     <div class="container">
-        <div class="card" style="max-width: 400px; margin: 2rem auto;">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Register</h2>
-            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="role">Register as</label>
-                    <select id="role" class="form-control" required>
-                        <option value="USER">Customer</option>
-                        <option value="MECHANIC">Mechanic</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
-            </form>
-            <p style="text-align: center; margin-top: 1rem;">
-                Already have an account? <a href="/login.html">Login here</a>
-            </p>
-        </div>
+        <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Register as</label>
+                <select id="role" class="form-control" required>
+                    <option value="USER">Customer</option>
+                    <option value="MECHANIC">Mechanic</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+            <div>
+                <div class="text"><p>already have an account <a href="./login.html">login here!</a></p></div>
+           </div>
+        </form>
+
     </div>
+</div>
 
-    <script>
-        document.getElementById('register-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const phoneNumber = document.getElementById('phoneNumber').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const role = document.getElementById('role').value;
-            const errorMessage = document.getElementById('error-message');
+<script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('fullName').value;
+        const email = document.getElementById('email').value;
+        const phoneNumber = document.getElementById('phoneNumber').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const role = document.getElementById('role').value;
+        const errorMessage = document.getElementById('error-message');
 
-            if (password !== confirmPassword) {
-                errorMessage.textContent = 'Passwords do not match';
-                errorMessage.style.display = 'block';
-                return;
-            }
+        if (password !== confirmPassword) {
+            errorMessage.textContent = 'Passwords do not match';
+            errorMessage.style.display = 'block';
+            return;
+        }
 
-            try {
-                const response = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        fullName,
-                        email,
-                        phoneNumber,
-                        password,
-                        role
-                    })
-                });
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    fullName,
+                    email,
+                    phoneNumber,
+                    password,
+                    role
+                })
+            });
 
-                const data = await response.json();
+            const data = await response.json();
 
-                if (response.ok) {
-                    window.location.href = '/login.html';
-                } else {
-                    errorMessage.textContent = data.message || 'Registration failed';
-                    errorMessage.style.display = 'block';
-                }
-            } catch (error) {
-                errorMessage.textContent = 'An error occurred. Please try again.';
+            if (response.ok) {
+                window.location.href = '/login.html';
+            } else {
+                errorMessage.textContent = data.message || 'Registration failed';
                 errorMessage.style.display = 'block';
             }
-        });
-    </script>
+        } catch (error) {
+            errorMessage.textContent = 'An error occurred. Please try again.';
+            errorMessage.style.display = 'block';
+        }
+    });
+</script>
 </body>
-</html> 
+</html>

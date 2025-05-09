@@ -4,53 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Vehicle Service Booking</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="/services.html" class="navbar-brand">Vehicle Service</a>
-            <div class="nav-links">
-                <a href="/services.html" class="user-only">Services</a>
-                <a href="/book.html" class="user-only">Book Service</a>
-                <a href="/history.html" class="user-only">History</a>
-                <a href="/mechanic.html" class="mechanic-only">Dashboard</a>
-                <a href="/profile.html">Profile</a>
-                <a href="#" onclick="logout()">Logout</a>
+    <header class="header">
+        <div id="menu-btn">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+    
+        <a href="#" class="logo"><span>max</span>wheels </a>
+        <nav class="navbar" style="text-decoration:none;">
+          <a href="index.html">Home</a>
+          <a href="#services">Services</a>
+          <a href="book.html">Book Service</a>
+          <a href="feedback.html">Feedback</a>
+          <a href="mechanic.html">Dashboard</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div id="login-btn">
+            <button class="btn" onclick="logout()">Logout</button>
+            <i class="far fa-user"></i>
+        </div>
+    
+        <div>
+          <a href="cart.html"><button style="font-size:1.5rem; cursor:pointer; background:none;"><i class="fa-solid fa-cart-shopping"></i> Cart</button></a>
+        </div>
+      </header>
+
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-card">
+                <h2 class="heading">User <span>Profile</span></h2>
+                <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+                <div id="success-message" class="alert alert-success" style="display: none;"></div>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" class="form-control" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="current-password"><i class="fas fa-lock"></i> Current Password</label>
+                        <input type="password" id="current-password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password"><i class="fas fa-key"></i> New Password</label>
+                        <input type="password" id="new-password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password"><i class="fas fa-check-circle"></i> Confirm New Password</label>
+                        <input type="password" id="confirm-password" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <div class="container">
-        <div class="card" style="max-width: 600px; margin: 2rem auto;">
-            <h2>Profile</h2>
-            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
-            <div id="success-message" class="alert alert-success" style="display: none;"></div>
-            <form id="profile-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" class="form-control" required>
+    <section class="footer" id="footer">
+        <div class="box-container">
+            <div class="box">
+                <a href="https://www.instagram.com/"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f"></i></a>
+                <div class="box">
+                    <a href="index.html"><i class="fas fa-arrow-right"></i>home </a>
+                    <a href="services.html"><i class="fas fa-arrow-right"></i>services </a>
+                    <a href="book.html"><i class="fas fa-arrow-right"></i>book service </a>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" required readonly>
-                </div>
-                <div class="form-group">
-                    <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary">Update Profile</button>
-            </form>
+            </div>
         </div>
-    </div>
+    </section>
 
     <script src="/js/session.js"></script>
     <script>
@@ -137,6 +164,13 @@
                 errorMessage.style.display = 'block';
             }
         });
+        
+        function logout() {
+            // Clear user session and redirect to login
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+        
     </script>
 </body>
-</html> 
+</html>
