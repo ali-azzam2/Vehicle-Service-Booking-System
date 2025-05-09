@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service History - Vehicle Service Booking</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="/services.html" class="navbar-brand">Vehicle Service</a>
+            <div class="nav-links">
+                <a href="/services.html">Services</a>
+                <a href="/book.html">Book Service</a>
+                <a href="/history.html">History</a>
+                <a href="/profile.html">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Service History</h2>
+        <div class="card">
+            <div style="margin-bottom: 1rem;">
+                <label for="status-filter">Filter by Status:</label>
+                <select id="status-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: 1rem;">
+                    <option value="ALL">All</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+            </div>
+            <div id="service-requests-list">
+                <!-- Service requests will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/session.js"></script>
+    <script>
+        async function loadServiceRequests(status = 'ALL') {
+            try {
+                const response = await fetch('/api/service-requests/user', {
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load service requests');
+                }
+
+                const requests = await response.json();
+                const requestsList = document.getElementById('service-requests-list');
+                
+                // Filter requests based on status if not ALL
+                const filteredRequests = status === 'ALL' 
+                    ? requests 
+                    : requests.filter(req => req.status === status);
+
+                if (filteredRequests.length === 0) {
+                    requestsList.innerHTML = '<p>No service requests found.</p>';
+                    return;
+                }
+
+                requestsList.innerHTML = filteredRequests.map(request => `
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>Request #${request.id}</h3>
+                        <p><strong>Service Type:</strong> ${request.serviceType}</p>
+                        <p><strong>Vehicle:</strong> ${request.vehicleType} - ${request.vehicleModel} (${request.vehicleNumber})</p>
+                        <p><strong>Status:</strong> ${request.status}</p>
+                        <p><strong>Description:</strong> ${request.description}</p>
+                        <p><strong>Requested At:</strong> ${new Date(request.requestedAt).toLocaleString()}</p>
+                        ${request.status === 'PENDING' ? `
+                            <button class="btn btn-danger" onclick="cancelRequest(${request.id})">Cancel Request</button>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading service requests:', error);
+                document.getElementById('service-requests-list').innerHTML = 
+                    '<p class="error">Error loading service requests. Please try again later.</p>';
+            }
+        }
+
+        async function cancelRequest(requestId) {
+            if (!confirm('Are you sure you want to cancel this service request?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/service-requests/${requestId}/status?status=CANCELLED`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to cancel request');
+                }
+
+                // Reload requests after cancellation
+                loadServiceRequests(document.getElementById('status-filter').value);
+            } catch (error) {
+                console.error('Error cancelling request:', error);
+                alert('Failed to cancel request. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession().then(user => {
+                if (!user || !user.roles || !user.roles.includes('ROLE_USER')) {
+                    window.location.href = '/login.html';
+                } else {
+                    loadServiceRequests();
+                    document.getElementById('status-filter').addEventListener('change', (e) => {
+                        loadServiceRequests(e.target.value);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Build files
+target/
+build/
+out/
+bin/
+
+# Logs
+*.log
+logs/
+
+# Test files
+src/test/
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+!mvnw
+!mvnw.cmd
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env
+*.env
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store 

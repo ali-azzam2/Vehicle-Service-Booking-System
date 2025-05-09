@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Vehicle Service Booking</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="/services.html" class="navbar-brand">Vehicle Service</a>
+            <div class="nav-links">
+                <a href="/services.html" class="user-only">Services</a>
+                <a href="/book.html" class="user-only">Book Service</a>
+                <a href="/history.html" class="user-only">History</a>
+                <a href="/mechanic.html" class="mechanic-only">Dashboard</a>
+                <a href="/profile.html">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="max-width: 600px; margin: 2rem auto;">
+            <h2>Profile</h2>
+            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+            <div id="success-message" class="alert alert-success" style="display: none;"></div>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="current-password">Current Password</label>
+                    <input type="password" id="current-password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/session.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession().then(user => {
+                if (!user || !user.roles) {
+                    window.location.href = '/login.html';
+                } else {
+                    // Optionally show/hide UI based on user.roles
+                    loadProfile();
+                }
+            });
+        });
+
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/auth/current-user', {
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+
+                const user = await response.json();
+                document.getElementById('name').value = user.fullName;
+                document.getElementById('email').value = user.email;
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword && newPassword !== confirmPassword) {
+                errorMessage.textContent = 'New passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            const updateData = {
+                name: document.getElementById('name').value,
+                currentPassword: currentPassword || undefined,
+                newPassword: newPassword || undefined
+            };
+
+            try {
+                const response = await fetch('/api/auth/update-profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(updateData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMessage.textContent = 'Profile updated successfully';
+                    successMessage.style.display = 'block';
+                    document.getElementById('current-password').value = '';
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-password').value = '';
+                } else {
+                    errorMessage.textContent = data.message || 'Failed to update profile';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

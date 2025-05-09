@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic Dashboard - Vehicle Service Booking</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="/mechanic.html" class="navbar-brand">Vehicle Service</a>
+            <div class="nav-links">
+                <a href="/mechanic.html">Dashboard</a>
+                <a href="/profile.html">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Mechanic Dashboard</h2>
+        <div class="card">
+            <div style="margin-bottom: 1rem;">
+                <label for="status-filter">Filter by Status:</label>
+                <select id="status-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: 1rem;">
+                    <option value="ALL">All</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="ACCEPTED">Accepted</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
+                    <option value="REJECTED">Rejected</option>
+                </select>
+            </div>
+            <div id="requests-list">
+                <!-- Service requests will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/session.js"></script>
+    <script>
+        function isMechanic(user) {
+            return user && user.roles && user.roles.includes('ROLE_MECHANIC');
+        }
+
+        async function loadRequests(status = 'ALL') {
+            let url;
+            if (status === 'ALL') {
+                url = '/api/service-requests/mechanic';
+            } else {
+                url = `/api/service-requests/status/${status}`;
+            }
+            try {
+                const response = await fetch(url, {
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load service requests');
+                }
+
+                const requests = await response.json();
+                const requestsList = document.getElementById('requests-list');
+                if (requests.length === 0) {
+                    requestsList.innerHTML = '<p>No service requests found.</p>';
+                    return;
+                }
+                requestsList.innerHTML = requests.map(request => `
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>Request #${request.id}</h3>
+                        <p><strong>User:</strong> ${request.userFullName || ''}</p>
+                        <p><strong>Service Type:</strong> ${request.serviceType}</p>
+                        <p><strong>Vehicle:</strong> ${request.vehicleType} - ${request.vehicleModel} (${request.vehicleNumber})</p>
+                        <p><strong>Status:</strong> ${request.status}</p>
+                        <p><strong>Description:</strong> ${request.description}</p>
+                        <p><strong>Requested At:</strong> ${request.requestedAt ? new Date(request.requestedAt).toLocaleString() : ''}</p>
+                        ${request.status === 'PENDING' ? `
+                            <button class="btn btn-primary" onclick="updateStatus(${request.id}, 'ACCEPTED')">Accept</button>
+                            <button class="btn btn-danger" onclick="updateStatus(${request.id}, 'REJECTED')">Reject</button>
+                        ` : ''}
+                        ${request.status === 'ACCEPTED' ? `
+                            <button class="btn btn-primary" onclick="updateStatus(${request.id}, 'IN_PROGRESS')">Start Service</button>
+                        ` : ''}
+                        ${request.status === 'IN_PROGRESS' ? `
+                            <button class="btn btn-success" onclick="updateStatus(${request.id}, 'COMPLETED')">Complete Service</button>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading service requests:', error);
+                document.getElementById('requests-list').innerHTML = 
+                    '<p class="error">Error loading service requests. Please try again later.</p>';
+            }
+        }
+
+        async function updateStatus(requestId, newStatus) {
+            try {
+                const response = await fetch(`/api/service-requests/${requestId}/status?status=${newStatus}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update status');
+                }
+
+                // Reload requests after status update
+                loadRequests(document.getElementById('status-filter').value);
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Failed to update status. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession().then(user => {
+                if (!user || !user.roles || !user.roles.includes('ROLE_MECHANIC')) {
+                    window.location.href = '/login.html';
+                } else {
+                    loadRequests();
+                    document.getElementById('status-filter').addEventListener('change', (e) => {
+                        loadRequests(e.target.value);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

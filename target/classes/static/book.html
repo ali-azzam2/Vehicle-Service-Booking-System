@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Service - Vehicle Service Booking</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="/services.html" class="navbar-brand">Vehicle Service</a>
+            <div class="nav-links">
+                <a href="/services.html">Services</a>
+                <a href="/book.html">Book Service</a>
+                <a href="/history.html">History</a>
+                <a href="/profile.html">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card" style="max-width: 600px; margin: 2rem auto;">
+            <h2>Book a Service</h2>
+            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+            <div id="success-message" class="alert alert-success" style="display: none;"></div>
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="vehicleType">Vehicle Type</label>
+                    <select id="vehicleType" class="form-control" required>
+                        <option value="">Select type...</option>
+                        <option value="CAR">Car</option>
+                        <option value="BIKE">Bike</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vehicleModel">Vehicle Model</label>
+                    <input type="text" id="vehicleModel" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="vehicleNumber">Vehicle Number</label>
+                    <input type="text" id="vehicleNumber" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="serviceType">Service Type</label>
+                    <select id="serviceType" class="form-control" required>
+                        <option value="">Choose a service...</option>
+                        <option value="OIL_CHANGE">Oil Change</option>
+                        <option value="TIRE_ROTATION">Tire Rotation</option>
+                        <option value="BRAKE_INSPECTION">Brake Inspection</option>
+                        <!-- Add more as needed -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Book Service</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/session.js"></script>
+    <script>
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            const bookingData = {
+                vehicleType: document.getElementById('vehicleType').value,
+                vehicleModel: document.getElementById('vehicleModel').value,
+                vehicleNumber: document.getElementById('vehicleNumber').value,
+                serviceType: document.getElementById('serviceType').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                const response = await fetch('/api/service-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(bookingData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMessage.textContent = 'Booking successful!';
+                    successMessage.style.display = 'block';
+                    document.getElementById('booking-form').reset();
+                } else {
+                    errorMessage.textContent = data.message || 'Booking failed';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession().then(user => {
+                if (!user || !user.roles || !user.roles.includes('ROLE_USER')) {
+                    window.location.href = '/login.html';
+                } else {
+                    // Any additional logic to initialize the booking form can go here
+                }
+            });
+        });
+    </script>
+</body>
+</html>
