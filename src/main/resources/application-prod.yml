@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com:5432/carservice_kxb6
+    username: carservice_kxb6_user
+    password: c9sWCyn481A0nY9ks1IC0aY34OE3tCIO
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.vehicleservice: DEBUG 
