@@ -4,40 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Service History - Vehicle Service Booking</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="/services.html" class="navbar-brand">Vehicle Service</a>
-            <div class="nav-links">
-                <a href="/services.html">Services</a>
-                <a href="/book.html">Book Service</a>
-                <a href="/history.html">History</a>
-                <a href="/profile.html">Profile</a>
-                <a href="#" onclick="logout()">Logout</a>
-            </div>
+    <!-- HEADER -->
+    <header class="header">
+        <div id="menu-btn">
+            <i class="fa-solid fa-bars"></i>
         </div>
-    </nav>
 
-    <div class="container">
-        <h2>Service History</h2>
-        <div class="card">
-            <div style="margin-bottom: 1rem;">
-                <label for="status-filter">Filter by Status:</label>
-                <select id="status-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: 1rem;">
-                    <option value="ALL">All</option>
-                    <option value="PENDING">Pending</option>
-                    <option value="IN_PROGRESS">In Progress</option>
-                    <option value="COMPLETED">Completed</option>
-                    <option value="CANCELLED">Cancelled</option>
-                </select>
-            </div>
-            <div id="service-requests-list">
-                <!-- Service requests will be loaded here -->
+        <a href="#" class="logo"><span>max</span>wheels </a>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="book.html">Book Service</a>
+            <a href="history.html">History</a>
+            <a href="profile.html">Profile</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+    <!-- END OF HEADER -->
+
+    <section class="history-section">
+        <div class="container">
+            <h1 class="dashboard-header">Service <span>History</span></h1>
+            <div class="card">
+                <div class="filter-container">
+                    <label for="status-filter">Filter by Status:</label>
+                    <select id="status-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: 1rem;">
+                        <option value="ALL">All</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                </div>
+                <div id="service-requests-list">
+                    <!-- Service requests will be loaded here -->
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <script src="/js/session.js"></script>
     <script>
@@ -68,15 +76,15 @@
                 }
 
                 requestsList.innerHTML = filteredRequests.map(request => `
-                    <div class="card" style="margin-bottom: 1rem;">
+                    <div class="card request-card">
                         <h3>Request #${request.id}</h3>
                         <p><strong>Service Type:</strong> ${request.serviceType}</p>
                         <p><strong>Vehicle:</strong> ${request.vehicleType} - ${request.vehicleModel} (${request.vehicleNumber})</p>
-                        <p><strong>Status:</strong> ${request.status}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-${request.status.toLowerCase()}">${request.status}</span></p>
                         <p><strong>Description:</strong> ${request.description}</p>
                         <p><strong>Requested At:</strong> ${new Date(request.requestedAt).toLocaleString()}</p>
                         ${request.status === 'PENDING' ? `
-                            <button class="btn btn-danger" onclick="cancelRequest(${request.id})">Cancel Request</button>
+                            <button class="btn" onclick="cancelRequest(${request.id})">Cancel Request</button>
                         ` : ''}
                     </div>
                 `).join('');
@@ -125,6 +133,12 @@
                     });
                 }
             });
+            
+            // Menu button functionality
+            document.querySelector('#menu-btn').onclick = () => {
+                document.querySelector('#menu-btn').classList.toggle('fa-times');
+                document.querySelector('.navbar').classList.toggle('active');
+            };
         });
     </script>
 </body>
