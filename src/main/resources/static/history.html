@@ -20,16 +20,22 @@
             <a href="book.html">Book Service</a>
             <!-- These links will be shown/hidden based on user role -->
             <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
-            <a href="history.html" class="user-only" style="display: none;">History</a>
             <a href="profile.html">Profile</a>
-            <a href="#" onclick="logout()">Logout</a>
         </nav>
+        <div id="login-btn">
+            <button class="btn" onclick="logout()">Logout</button>
+            <i class="far fa-user"></i>
+        </div>
     </header>
-    <!-- END OF HEADER -->
+    <section class="home" id="home">
+        <h1 class="home-parallax" data-speed="-2">Service <span>History</span></h1>
+      </section>
 
+    <!-- END OF HEADER -->
     <section class="history-section">
+        <!-- <h1 class="dashboard-header">Service <span>History</span></h1> -->
         <div class="container">
-            <h1 class="dashboard-header">Service <span>History</span></h1>
+            <!-- <h1 class="dashboard-header">Service <span>History</span></h1> -->
             <div class="card">
                 <div class="filter-container">
                     <label for="status-filter">Filter by Status:</label>

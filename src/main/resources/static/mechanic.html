@@ -16,18 +16,22 @@
 
         <a href="#" class="logo"><span>max</span>wheels </a>
         <nav class="navbar">
-            <a href="index.html">Home</a>
             <!-- These links will be shown/hidden based on user role -->
             <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
             <a href="history.html" class="user-only" style="display: none;">History</a>
             <a href="profile.html">Profile</a>
-            <a href="#" onclick="logout()">Logout</a>
         </nav>
+        <div id="login-btn">
+            <button class="btn" onclick="logout()">Logout</button>
+            <i class="far fa-user"></i>
+        </div>
     </header>
     <!-- END OF HEADER -->
-
+    <section class="home" id="home">
+        <h1 class="home-parallax" data-speed="-2">Mechanic <span>Dashboard</span></h1>
+      </section>
     <section class="mechanic-dashboard-container">
-        <h1 class="dashboard-header">Mechanic <span>Dashboard</span></h1>
+        <!-- <h1 class="dashboard-header">Mechanic <span>Dashboard</span></h1> -->
         <div class="card">
             <div class="filter-container">
                 <label for="status-filter">Filter by Status:</label>
@@ -80,7 +84,7 @@
                 requestsList.innerHTML = requests.map(request => `
                     <div class="card request-card">
                         <h3>Request #${request.id}</h3>
-                        <p><strong>User:</strong> ${request.userFullName || ''}</p>
+                        
                         <p><strong>Service Type:</strong> ${request.serviceType}</p>
                         <p><strong>Vehicle:</strong> ${request.vehicleType} - ${request.vehicleModel} (${request.vehicleNumber})</p>
                         <p><strong>Status:</strong> <span class="status-badge status-${request.status.toLowerCase()}">${request.status}</span></p>
