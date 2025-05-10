@@ -4,9 +4,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/carservice
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://carservice_kxb6_user:c9sWCyn481A0nY9ks1IC0aY34OE3tCIO@dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com/carservice_kxb6
+      - SPRING_DATASOURCE_USERNAME=carservice_kxb6_user
+      - SPRING_DATASOURCE_PASSWORD=c9sWCyn481A0nY9ks1IC0aY34OE3tCIO
     depends_on:
       - db
 

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/carservice
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://carservice_kxb6_user:c9sWCyn481A0nY9ks1IC0aY34OE3tCIO@dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com/carservice_kxb6
+    username: carservice_kxb6_user
+    password: c9sWCyn481A0nY9ks1IC0aY34OE3tCIO
     
   jpa:
     hibernate:
