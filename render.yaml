@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: carservice-app
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free # Choose an appropriate plan based on your needs
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com:5432/carservice_kxb6
+      - key: SPRING_DATASOURCE_USERNAME
+        value: carservice_kxb6_user
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: c9sWCyn481A0nY9ks1IC0aY34OE3tCIO
+    ports:
+      - port: 8080
+        protocol: http
+      
+databases:
+  # Your database is already created, so we reference it here
+  - name: carservice-db
+    databaseName: carservice_kxb6
+    user: carservice_kxb6_user
+    postgresMajorVersion: 15 # Adjust version if needed
+    ipAllowList: [] # This means only Render services can access the DB
+    existing: true # This tells Render to use your existing database

@@ -1,8 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://carservice_kxb6_user:c9sWCyn481A0nY9ks1IC0aY34OE3tCIO@dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com/carservice_kxb6
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dpg-d0fru7c9c44c73bk480g-a.frankfurt-postgres.render.com:5432/carservice_kxb6
     username: carservice_kxb6_user
     password: c9sWCyn481A0nY9ks1IC0aY34OE3tCIO
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
     
   jpa:
     hibernate:
@@ -12,17 +16,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  # session:
-  #   store-type: none
-  #   cookie:
-  #     http-only: true
-  #     secure: true
-  #     same-site: strict
-
-# server:
-#   port: 8080
-#   servlet:
-#     context-path: /api
 
 logging:
   level:
