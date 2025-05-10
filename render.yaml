@@ -16,6 +16,14 @@ services:
     ports:
       - port: 8080
         protocol: http
+        
+databases:
+  # Your database is already created, so we reference it here
+  - name: carservice-db
+    databaseName: carservice_kxb6
+    user: carservice_kxb6_user
+    ipAllowList: [] # This means only Render services can access the DB
+    existing: true # This tells Render to use your existing database
       
 databases:
   # Your database is already created, so we reference it here
