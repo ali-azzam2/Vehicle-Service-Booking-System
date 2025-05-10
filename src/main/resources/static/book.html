@@ -38,10 +38,8 @@
   </nav>
 
   <div id="login-btn">
-    <a href="login.html">
-      <button class="btn">Login</button>
-      <i class="far fa-user"></i>
-    </a>
+    <button class="btn" onclick="logout()">Logout</button>
+    <i class="far fa-user"></i>
   </div>
   <div id="register-btn">
     <a href="register.html">
@@ -146,6 +144,32 @@
     </section>
     <script src="/js/session.js"></script>
     <script>
+        // Logout function
+        function logout() {
+            try {
+                // Call the logout API endpoint
+                fetch('/api/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                }).then(response => {
+                    if (response.ok) {
+                        // Clear any local storage data
+                        localStorage.removeItem('user');
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    } else {
+                        console.error('Logout failed');
+                    }
+                }).catch(error => {
+                    console.error('Error during logout:', error);
+                });
+            } catch (error) {
+                console.error('Error during logout:', error);
+                // Fallback - redirect to login page even if API call fails
+                window.location.href = 'login.html';
+            }
+        }
+        
         document.getElementById('booking-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const errorMessage = document.getElementById('error-message');
@@ -196,6 +220,12 @@
                     // Any additional logic to initialize the booking form can go here
                 }
             });
+            
+            // Menu button functionality
+            document.querySelector('#menu-btn').onclick = () => {
+                document.querySelector('#menu-btn').classList.toggle('fa-times');
+                document.querySelector('.navbar').classList.toggle('active');
+            };
         });
     </script>
   </body>
