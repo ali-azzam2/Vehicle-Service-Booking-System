@@ -4,24 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mechanic Dashboard - Vehicle Service Booking</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="/mechanic.html" class="navbar-brand">Vehicle Service</a>
-            <div class="nav-links">
-                <a href="/mechanic.html">Dashboard</a>
-                <a href="/profile.html">Profile</a>
-                <a href="#" onclick="logout()">Logout</a>
-            </div>
+    <!-- HEADER -->
+    <header class="header">
+        <div id="menu-btn">
+            <i class="fa-solid fa-bars"></i>
         </div>
-    </nav>
 
-    <div class="container">
-        <h2>Mechanic Dashboard</h2>
+        <a href="#" class="logo"><span>max</span>wheels </a>
+        <nav class="navbar">
+            <!-- These links will be shown/hidden based on user role -->
+            <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
+            <a href="history.html" class="user-only" style="display: none;">History</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+        <div id="login-btn">
+            <button class="btn" onclick="logout()">Logout</button>
+            <i class="far fa-user"></i>
+        </div>
+    </header>
+    <!-- END OF HEADER -->
+    <section class="home" id="home">
+        <h1 class="home-parallax" data-speed="-2">Mechanic <span>Dashboard</span></h1>
+      </section>
+    <section class="mechanic-dashboard-container">
+        <!-- <h1 class="dashboard-header">Mechanic <span>Dashboard</span></h1> -->
         <div class="card">
-            <div style="margin-bottom: 1rem;">
+            <div class="filter-container">
                 <label for="status-filter">Filter by Status:</label>
                 <select id="status-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: 1rem;">
                     <option value="ALL">All</option>
@@ -36,7 +48,7 @@
                 <!-- Service requests will be loaded here -->
             </div>
         </div>
-    </div>
+    </section>
 
     <script src="/js/session.js"></script>
     <script>
@@ -70,23 +82,23 @@
                     return;
                 }
                 requestsList.innerHTML = requests.map(request => `
-                    <div class="card" style="margin-bottom: 1rem;">
+                    <div class="card request-card">
                         <h3>Request #${request.id}</h3>
-                        <p><strong>User:</strong> ${request.userFullName || ''}</p>
+                        
                         <p><strong>Service Type:</strong> ${request.serviceType}</p>
                         <p><strong>Vehicle:</strong> ${request.vehicleType} - ${request.vehicleModel} (${request.vehicleNumber})</p>
-                        <p><strong>Status:</strong> ${request.status}</p>
+                        <p><strong>Status:</strong> <span class="status-badge status-${request.status.toLowerCase()}">${request.status}</span></p>
                         <p><strong>Description:</strong> ${request.description}</p>
                         <p><strong>Requested At:</strong> ${request.requestedAt ? new Date(request.requestedAt).toLocaleString() : ''}</p>
                         ${request.status === 'PENDING' ? `
-                            <button class="btn btn-primary" onclick="updateStatus(${request.id}, 'ACCEPTED')">Accept</button>
+                            <button class="btn" onclick="updateStatus(${request.id}, 'ACCEPTED')">Accept</button>
                             <button class="btn btn-danger" onclick="updateStatus(${request.id}, 'REJECTED')">Reject</button>
                         ` : ''}
                         ${request.status === 'ACCEPTED' ? `
-                            <button class="btn btn-primary" onclick="updateStatus(${request.id}, 'IN_PROGRESS')">Start Service</button>
+                            <button class="btn" onclick="updateStatus(${request.id}, 'IN_PROGRESS')">Start Service</button>
                         ` : ''}
                         ${request.status === 'IN_PROGRESS' ? `
-                            <button class="btn btn-success" onclick="updateStatus(${request.id}, 'COMPLETED')">Complete Service</button>
+                            <button class="btn" onclick="updateStatus(${request.id}, 'COMPLETED')">Complete Service</button>
                         ` : ''}
                     </div>
                 `).join('');
@@ -119,11 +131,29 @@
             }
         }
 
+        // Menu button functionality
+        document.querySelector('#menu-btn').onclick = () => {
+            document.querySelector('#menu-btn').classList.toggle('fa-times');
+            document.querySelector('.navbar').classList.toggle('active');
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             checkSession().then(user => {
                 if (!user || !user.roles || !user.roles.includes('ROLE_MECHANIC')) {
                     window.location.href = '/login.html';
                 } else {
+                    // Show/hide navigation links based on user role
+                    const mechanicOnlyElements = document.querySelectorAll('.mechanic-only');
+                    const userOnlyElements = document.querySelectorAll('.user-only');
+                    
+                    if (user.roles.includes('ROLE_MECHANIC')) {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'inline-block');
+                        userOnlyElements.forEach(el => el.style.display = 'none');
+                    } else {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'none');
+                        userOnlyElements.forEach(el => el.style.display = 'inline-block');
+                    }
+                    
                     loadRequests();
                     document.getElementById('status-filter').addEventListener('change', (e) => {
                         loadRequests(e.target.value);

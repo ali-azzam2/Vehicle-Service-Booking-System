@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,12 +33,18 @@
     <nav class="navbar" style="text-decoration:none;">
       <a href="index.html">Home</a>
       <a href="#services">Services</a>
-      <a href="feedback.html">Feedback</a>
+      <a href="history.html">History</a>
       <a href="profile.html">Profile</a>
       <a href="#contact">Contact</a>
+      <!-- These links will be shown/hidden based on user role -->
+      <!-- <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
+      <a href="history.html" class="user-only" style="display: none;">History</a> -->
     </nav>
-
     <div id="login-btn">
+      <button class="btn" onclick="logout()">Logout</button>
+      <i class="far fa-user"></i>
+  </div>
+    <!-- <div id="login-btn">
       <a href="login.html">
         <button class="btn">Login</button>
         <i class="far fa-user"></i>
@@ -53,7 +58,7 @@
     </div>
     <div>
       <a href="cart.html"><button style="font-size:1.5rem; cursor:pointer; background:none;"><i class="fa-solid fa-cart-shopping"></i> Cart</button></a>
-    </div>
+    </div> -->
   </header>
     <!------------------------END OF HEADER------------------->
 
@@ -133,107 +138,101 @@
         </div>
       </div>
     </section>
+<!-- Coming Soon Section -->
+<section class="soon">
+  <h1 class="heading"><span>popular </span>vehicles</h1>
+  <div class="soon-wrapper">
+    <!-- Product 1 -->
+    <div class="soon-cards">
+      <form action="" method="post">
+        <img src="images/car1.jpg" alt="Toyota Camry"> 
+        <h3>Porsche 911 GT3 RS</h3>
+        <p class="price">$100000</p>
+        <input type="hidden" name="product_name" value="Toyota Camry">
+        <input type="hidden" name="product_price" value="100">
+        <input type="hidden" name="product_image" value="images/car1.jpg">
+        <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
+        <button type="submit" class="btn">Add to favorites</button>
+      </form>
+    </div>
 
-    <!-- vehicles carousel section starts here -->
-    <section class="vehicles" id="vehicles">
-      <h1 class="heading">popular <span>vehicles</span></h1>
-      <div class="swiper vehicles-slider">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide box">
-            <img src="assets\car-png-39063.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-          <div class="swiper-slide box">
-            <img src="assets\red-sports-car-png-1.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-          <div class="swiper-slide box">
-            <img src="assets\car-png-16841.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-          <div class="swiper-slide box">
-            <img src="assets\car-png-39061.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-          <div class="swiper-slide box">
-            <img src="assets\car-png-16834.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-          <div class="swiper-slide box">
-            <img src="assets\car-png-39072.png" alt="" />
-            <div class="content">
-              <h3>new model</h3>
-              <div class="price"><span>price:</span>$65000/-</div>
-              <p>
-                <span class="fas fa-circle"></span>new
-                <span class="fas fa-circle"></span>2023
-                <span class="fas fa-circle"></span>automatic
-                <span class="fas fa-circle"></span>petrol
-                <span class="fas fa-circle"></span>183mph
-              </p>
-              <a href="#" class="btn">check out</a>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </section>
-    <!-- vehicles carousel section ends here -->
+    <!-- Product 2 -->
+    <div class="soon-cards">
+      <form action="" method="post">
+        <img src="images/car2.jpg" alt="Honda Accord"> 
+        <h3>Honda Accord</h3>
+        <p class="price">$9000</p>
+        <input type="hidden" name="product_name" value="Honda Accord">
+        <input type="hidden" name="product_price" value="90">
+        <input type="hidden" name="product_image" value="images/car2.jpg">
+        <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
+        <button type="submit" class="btn">Add to favorites</button>
+      </form>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="soon-cards">
+      <form action="" method="post">
+        <img src="images/car3.jpg" alt="Ford Mustang"> 
+        <h3>Ford Mustang</h3>
+        <p class="price">$15000</p>
+        <input type="hidden" name="product_name" value="Ford Mustang">
+        <input type="hidden" name="product_price" value="150">
+        <input type="hidden" name="product_image" value="images/car3.jpg">
+        <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
+        <button type="submit" class="btn">Add to favorites</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.soon {
+  margin-top: 3rem;
+}
+.soon-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.soon-cards {
+  text-align: center;
+  padding: 2rem;
+  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  width: 30%;
+  margin: 1%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.soon img {
+  height: 15rem;
+  width: 100%;
+  /* object-fit: contain; */
+  margin-bottom: 1rem;
+}
+
+.soon-cards:hover {
+  transform: scale(1.05);
+}
+
+.soon h3 {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.soon .price {
+  font-size: 2.5rem;
+  color: #333;
+  margin-top: 1rem;
+}
+
+</style>
+</section>
+
 
     <!-- services section starts here -->
     <section class="services" id="services">
@@ -291,137 +290,6 @@
       </div>
     </section>
 
-    <!-- services section ends here -->
-
-    <!-- featured section starts here -->
-
-    <section class="featured" id="featured">
-      <h1 class="heading"><span>featured </span>cars</h1>
-      <div class="featured-slider">
-        <div class="wrapper">
-            <!-- Product 1 -->
-            <div class="product-item">
-              <img src="images/car1.jpg" alt="Toyota Camry">
-              <h3>Toyota Camry</h3>
-              <p>$100</p>
-              <a href="product-detail.html?id=1" class="btn">View Details</a>
-            </div>
-        
-            <!-- Product 2 -->
-            <div class="product-item">
-              <img src="images/car2.jpg" alt="Honda Accord">
-              <h3>Honda Accord</h3>
-              <p>$90</p>
-              <a href="product-detail.html?id=2" class="btn">View Details</a>
-            </div>
-        
-            <!-- Product 3 -->
-            <div class="product-item">
-              <img src="images/car3.jpg" alt="Ford Mustang">
-              <h3>Ford Mustang</h3>
-              <p>$150</p>
-              <a href="product-detail.html?id=3" class="btn">View Details</a>
-            </div>
-        
-          </div>
-          </section>
- <!-- featured section ends here -->
-<!-- Coming Soon Section -->
-<section class="soon">
-    <h1 class="heading"><span>coming </span>soon</h1>
-    <div class="soon-wrapper">
-      <!-- Product 1 -->
-      <div class="soon-cards">
-        <form action="" method="post">
-          <img src="images/car1.jpg" alt="Toyota Camry"> 
-          <h3>Toyota Camry</h3>
-          <p class="price">$100</p>
-          <input type="hidden" name="product_name" value="Toyota Camry">
-          <input type="hidden" name="product_price" value="100">
-          <input type="hidden" name="product_image" value="images/car1.jpg">
-          <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
-          <button type="submit" class="btn">Add to favorites</button>
-        </form>
-      </div>
-  
-      <!-- Product 2 -->
-      <div class="soon-cards">
-        <form action="" method="post">
-          <img src="images/car2.jpg" alt="Honda Accord"> 
-          <h3>Honda Accord</h3>
-          <p class="price">$90</p>
-          <input type="hidden" name="product_name" value="Honda Accord">
-          <input type="hidden" name="product_price" value="90">
-          <input type="hidden" name="product_image" value="images/car2.jpg">
-          <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
-          <button type="submit" class="btn">Add to favorites</button>
-        </form>
-      </div>
-  
-      <!-- Product 3 -->
-      <div class="soon-cards">
-        <form action="" method="post">
-          <img src="images/car3.jpg" alt="Ford Mustang"> 
-          <h3>Ford Mustang</h3>
-          <p class="price">$150</p>
-          <input type="hidden" name="product_name" value="Ford Mustang">
-          <input type="hidden" name="product_price" value="150">
-          <input type="hidden" name="product_image" value="images/car3.jpg">
-          <input type="hidden" id="fav" value="add to fav" name="add_to_fav">
-          <button type="submit" class="btn">Add to favorites</button>
-        </form>
-      </div>
-  
-    </div>
-  </section>
-  
-<style>
-  .soon {
-    margin-top: 3rem;
-  }
-  .soon-wrapper{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .soon-cards {
-    text-align: center;
-    padding: 2rem;
-    box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.2);
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    width: 30%;
-    margin: 1%;
-    transition: transform 0.2s ease-in-out;
-  }
-
-  .soon img {
-    height: 15rem;
-    width: 100%;
-    /* object-fit: contain; */
-    margin-bottom: 1rem;
-  }
-
-  .soon-cards:hover {
-    transform: scale(1.05);
-  }
-
-  .soon h3 {
-    font-size: 2.2rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-
-  .soon .price {
-    font-size: 2.5rem;
-    color: #333;
-    margin-top: 1rem;
-  }
-
-</style>
-</section>
-
-    <!-- coming soon section starts here -->
 
     <!-- contact section starts here -->
     <section class="contact" id="contact">
@@ -469,11 +337,58 @@
     <!-- footer section ends here -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="js.js"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-     integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
-     crossorigin="anonymous">
+    <script src="/js/session.js"></script>
+    <script>
+        // Logout function
+        function logout() {
+            try {
+                // Call the logout API endpoint
+                fetch('/api/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                }).then(response => {
+                    if (response.ok) {
+                        // Clear any local storage data
+                        localStorage.removeItem('user');
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    } else {
+                        console.error('Logout failed');
+                    }
+                }).catch(error => {
+                    console.error('Error during logout:', error);
+                });
+            } catch (error) {
+                console.error('Error during logout:', error);
+                // Fallback - redirect to login page even if API call fails
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Check session when page loads and update UI
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession().then(user => {
+                if (user && user.roles) {
+                    // Show/hide navigation links based on user role
+                    const mechanicOnlyElements = document.querySelectorAll('.mechanic-only');
+                    const userOnlyElements = document.querySelectorAll('.user-only');
+                    
+                    if (user.roles.includes('ROLE_MECHANIC')) {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'inline-block');
+                        userOnlyElements.forEach(el => el.style.display = 'none');
+                    } else {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'none');
+                        userOnlyElements.forEach(el => el.style.display = 'inline-block');
+                    }
+                }
+            });
+            
+            // Menu button functionality
+            document.querySelector('#menu-btn').onclick = () => {
+                document.querySelector('#menu-btn').classList.toggle('fa-times');
+                document.querySelector('.navbar').classList.toggle('active');
+            };
+        });
     </script>
-    <script src="jquery_cookie.js"></script>
-    <script src="main.js"></script> -->
   </body>
 </html>

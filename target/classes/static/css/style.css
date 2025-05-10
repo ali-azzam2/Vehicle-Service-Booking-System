@@ -1003,3 +1003,155 @@ p {
     font-size: 1.8rem;
   }
 }
+
+/* Mechanic Dashboard Styles */
+.mechanic-dashboard-container {
+  padding-top: 8rem;
+  padding-bottom: 3rem;
+}
+
+.mechanic-dashboard-container .dashboard-header {
+  color: var(--black);
+  font-size: 3rem;
+  text-align: center;
+  padding-bottom: 2rem;
+  text-transform: capitalize;
+}
+
+.mechanic-dashboard-container .dashboard-header span {
+  color: var(--yellow);
+}
+
+.filter-container {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: var(--border);
+}
+
+.filter-container label {
+  font-size: 1.6rem;
+  color: var(--black);
+  font-weight: 500;
+}
+
+.filter-container select {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: var(--border);
+  border-radius: 0.5rem;
+}
+
+.request-card {
+  border-left: 4px solid var(--yellow);
+  transition: transform 0.2s ease;
+  margin-bottom: 2rem !important;
+}
+
+.request-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.request-card h3 {
+  color: var(--black);
+  font-size: 2rem;
+}
+
+.request-card p {
+  font-size: 1.5rem;
+  margin: 0.8rem 0;
+  color: var(--light-color);
+}
+
+.request-card strong {
+  color: var(--black);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+
+.status-pending {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
+.status-accepted {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-in_progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* History Page Styles */
+.history-section {
+  padding-top: 8rem;
+  padding-bottom: 3rem;
+}
+
+.history-section .dashboard-header {
+  color: var(--black);
+  font-size: 3rem;
+  text-align: center;
+  padding-bottom: 2rem;
+  text-transform: capitalize;
+}
+
+.history-section .dashboard-header span {
+  color: var(--yellow);
+  position: relative;
+  z-index: 0;
+}
+
+.history-section .dashboard-header span::before {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  background: var(--yellow);
+  clip-path: polygon(0 90%, 100% 80%, 100% 100%, 0% 100%);
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive styles for history page */
+@media (max-width: 768px) {
+  .history-section .container {
+    padding: 0 1.5rem;
+  }
+  
+  .history-section .dashboard-header {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .history-section .dashboard-header {
+    font-size: 2rem;
+  }
+}
