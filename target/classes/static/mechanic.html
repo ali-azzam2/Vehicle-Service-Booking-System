@@ -17,7 +17,9 @@
         <a href="#" class="logo"><span>max</span>wheels </a>
         <nav class="navbar">
             <a href="index.html">Home</a>
-            <a href="mechanic.html">Dashboard</a>
+            <!-- These links will be shown/hidden based on user role -->
+            <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
+            <a href="history.html" class="user-only" style="display: none;">History</a>
             <a href="profile.html">Profile</a>
             <a href="#" onclick="logout()">Logout</a>
         </nav>
@@ -136,6 +138,18 @@
                 if (!user || !user.roles || !user.roles.includes('ROLE_MECHANIC')) {
                     window.location.href = '/login.html';
                 } else {
+                    // Show/hide navigation links based on user role
+                    const mechanicOnlyElements = document.querySelectorAll('.mechanic-only');
+                    const userOnlyElements = document.querySelectorAll('.user-only');
+                    
+                    if (user.roles.includes('ROLE_MECHANIC')) {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'inline-block');
+                        userOnlyElements.forEach(el => el.style.display = 'none');
+                    } else {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'none');
+                        userOnlyElements.forEach(el => el.style.display = 'inline-block');
+                    }
+                    
                     loadRequests();
                     document.getElementById('status-filter').addEventListener('change', (e) => {
                         loadRequests(e.target.value);

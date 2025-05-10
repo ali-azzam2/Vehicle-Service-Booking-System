@@ -16,20 +16,16 @@
         <a href="#" class="logo"><span>max</span>wheels </a>
         <nav class="navbar" style="text-decoration:none;">
           <a href="index.html">Home</a>
-          <a href="#services">Services</a>
-          <a href="book.html">Book Service</a>
-          <a href="feedback.html">Feedback</a>
-          <a href="mechanic.html">Dashboard</a>
-          <a href="#contact">Contact</a>
+          <!-- These links will be shown/hidden based on user role -->
+          <a href="mechanic.html" class="mechanic-only" style="display: none;">Dashboard</a>
+          <a href="history.html" class="user-only" style="display: none;">History</a>
+          <a href="profile.html">Profile</a>
         </nav>
         <div id="login-btn">
             <button class="btn" onclick="logout()">Logout</button>
             <i class="far fa-user"></i>
         </div>
     
-        <div>
-          <a href="cart.html"><button style="font-size:1.5rem; cursor:pointer; background:none;"><i class="fa-solid fa-cart-shopping"></i> Cart</button></a>
-        </div>
       </header>
 
     <section class="profile-section">
@@ -88,10 +84,28 @@
                 if (!user || !user.roles) {
                     window.location.href = '/login.html';
                 } else {
+                    // Show/hide navigation links based on user role
+                    const mechanicOnlyElements = document.querySelectorAll('.mechanic-only');
+                    const userOnlyElements = document.querySelectorAll('.user-only');
+                    
+                    if (user.roles.includes('ROLE_MECHANIC')) {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'inline-block');
+                        userOnlyElements.forEach(el => el.style.display = 'none');
+                    } else {
+                        mechanicOnlyElements.forEach(el => el.style.display = 'none');
+                        userOnlyElements.forEach(el => el.style.display = 'inline-block');
+                    }
+                    
                     updateProfileHeading(user);
                     loadProfile();
                 }
             });
+            
+            // Menu button functionality
+            document.querySelector('#menu-btn').onclick = () => {
+                document.querySelector('#menu-btn').classList.toggle('fa-times');
+                document.querySelector('.navbar').classList.toggle('active');
+            };
         });
 
         function updateProfileHeading(user) {
